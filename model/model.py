@@ -18,5 +18,5 @@ def get_response(prompt):
     inputs = tokenizer.encode(prompt, return_tensors="pt").to(device)
     outputs = model.generate(inputs, do_sample = True, temperature = 0.7, max_new_tokens = 1024)
     response = tokenizer.decode(outputs[0])
-    print(response)
+    return response
 # %%
