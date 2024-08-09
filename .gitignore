@@ -10,8 +10,11 @@ __pycache__/
 # ignore json files
 reminders/credentials.json
 
-#ignore sandbox files
+# ignore sandbox files
 Sandbox/
 
-#ignore init files
+# ignore init files
 **/__init__.py
+
+# ignore config files
+/config.ini
