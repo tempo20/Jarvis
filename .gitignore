@@ -4,3 +4,5 @@ venv/
 .env
 # ignore cache
 __pycache__/
+# ignore json files
+.json
