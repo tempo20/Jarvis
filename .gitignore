@@ -1,8 +1,17 @@
 # ignore virtual environment files
 venv/
+
 # ignore env variables
 .env
+
 # ignore cache
 __pycache__/
+
 # ignore json files
 .json
+
+#ignore sandbox files
+Sandbox/
+
+#ignore init files
+**/__init__.py
