@@ -2,8 +2,12 @@
 import sys
 import os
 import configparser
+config = configparser.ConfigParser()
+config_file_path = os.path.join(os.path.dirname(__file__), 'config.ini')
+config.read(config_file_path)
+credentials_file_path = config.get('file_paths', 'file_path_credentials')
+email = config.get('emails', 'email')
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from models.Claude.model import *
 import datetime
 import os.path
@@ -12,13 +16,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-# %%
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
-config = configparser.ConfigParser()
-config.read('config.ini')
-credentials_file_path = config.get('General', 'file_path')
-email = config.get('General', 'email')
-
 #%%
 def get_creds():
     creds = None
@@ -78,6 +76,6 @@ def create_event(summary, location, description, colorId, dateTime, timeZone, en
             ]
         }
         event = service.events().insert(calendarID = 'primary', body = event).execute()
-        print(f'event created: {event.get('htmllink')}')
+        print(f"event created: {event.get('htmllink')}")
     except HttpError as error:
         print('an error has occured:', error)
