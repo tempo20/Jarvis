@@ -10,7 +10,7 @@ client = Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
 #%%
-def get_response(prompt):
+def get_response(prompt, functions = None):
     message = client.messages.create(
     max_tokens=1024,
     messages=[
@@ -20,5 +20,17 @@ def get_response(prompt):
         }
     ],
     model="claude-3-5-sonnet-20240620",
+    functions = functions
 )
     return message
+# %%
+def handle_response(response):
+    if response.function_call:
+        function_name = response.function_call.name
+        function_args = response.function_call.arguments
+
+        if function_name == "get_events":
+            weather_result = get_events(**function_args)
+    else:
+        return response.content
+# %%
