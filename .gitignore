@@ -15,4 +15,4 @@ reminders/token.json
 Sandbox/
 
 # ignore config files
-# **/config.ini
+**/config.ini
