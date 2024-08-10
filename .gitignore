@@ -18,4 +18,4 @@ Sandbox/
 **/__init__.py
 
 # ignore config files
-/config.ini
+reminders/config.ini

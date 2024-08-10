@@ -17,6 +17,7 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 config = configparser.ConfigParser()
 config.read('config.ini')
 credentials_file_path = config.get('General', 'file_path')
+email = config.get('General', 'email')
 
 #%%
 def get_creds():
@@ -54,4 +55,29 @@ def get_events():
         print('an error has occured:', error)
 
 # %%
-
+def create_event(summary, location, description, colorId, dateTime, timeZone, end, attendees):
+    creds = get_creds()
+    try:
+        service = build('calendar', 'v3', credentials = creds)
+        event = {
+            'summary': summary,
+            'locaton': location,
+            'description': description,
+            'colorId': colorId,
+            'start':{
+                'dateTime': dateTime,
+                'timeZone': timeZone
+            },
+            'end': {
+                'dateTime': dateTime,
+                'timeZone': timeZone
+            },
+            'recurrence': ['RRULE:FREQ=DAILY;COUNT=3'],
+            'attendees': [
+                {'email': email}
+            ]
+        }
+        event = service.events().insert(calendarID = 'primary', body = event).execute()
+        print(f'event created: {event.get('htmllink')}')
+    except HttpError as error:
+        print('an error has occured:', error)
