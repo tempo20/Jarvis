@@ -6,9 +6,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from reminders.calenderapi import *
 #%%
 client = Anthropic(
-    # This is the default and can be omitted
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
+functions = [get_events, create_event]
 #%%
 def get_response(prompt, functions = None):
     message = client.messages.create(
