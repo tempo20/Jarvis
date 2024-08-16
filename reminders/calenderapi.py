@@ -79,3 +79,13 @@ def create_event(summary, location, description, colorId, dateTime, timeZone, en
         print(f"event created: {event.get('htmllink')}")
     except HttpError as error:
         print('an error has occured:', error)
+
+#%%
+def delete_event(event_id):
+    creds = get_creds()
+    try:
+        service = build('calendar', 'v3', credentials=creds)
+        service.events().delete(calendarId='primary', eventId=event_id).execute()
+        print(f"Event with ID {event_id} deleted successfully.")
+    except HttpError as error:
+        print('An error occurred:', error)
