@@ -1,4 +1,12 @@
-#%%
+# %%
+from googleapiclient.errors import HttpError
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
+import os.path
+import datetime
+from models.Claude.model import *
 import sys
 import os
 import configparser
@@ -8,16 +16,10 @@ config.read(config_file_path)
 credentials_file_path = config.get('file_paths', 'file_path_credentials')
 email = config.get('emails', 'email')
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from models.Claude.model import *
-import datetime
-import os.path
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
-#%%
+# %%
+
+
 def get_creds():
     creds = None
     if os.path.exists("token.json"):
@@ -28,20 +30,24 @@ def get_creds():
             creds.refresh(Request())
 
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(credentials_file_path, SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(
+                credentials_file_path, SCOPES)
             creds = flow.run_local_server(port=0)
 
             with open("token.json", "w") as token:
                 token.write(creds.to_json())
     return creds
-#%%
+# %%
+
+
 def get_events():
     creds = get_creds()
     try:
-        service = build('calendar', 'v3', credentials = creds)
+        service = build('calendar', 'v3', credentials=creds)
         now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
         print("Getting the upcoming 10 events")
-        event_result = service.events().list(calendarId = 'primary', timeMin = now, maxResults = 5, singleEvents = True, orderBy = 'startTime').execute()
+        event_result = service.events().list(calendarId='primary', timeMin=now,
+                                             maxResults=5, singleEvents=True, orderBy='startTime').execute()
         events = event_result.get('items', [])
         if not events:
             print('No upcoming events found!')
@@ -53,16 +59,18 @@ def get_events():
         print('an error has occured:', error)
 
 # %%
+
+
 def create_event(summary, location, description, colorId, dateTime, timeZone, end, attendees):
     creds = get_creds()
     try:
-        service = build('calendar', 'v3', credentials = creds)
+        service = build('calendar', 'v3', credentials=creds)
         event = {
             'summary': summary,
             'locaton': location,
             'description': description,
             'colorId': colorId,
-            'start':{
+            'start': {
                 'dateTime': dateTime,
                 'timeZone': timeZone
             },
@@ -75,12 +83,14 @@ def create_event(summary, location, description, colorId, dateTime, timeZone, en
                 {'email': email}
             ]
         }
-        event = service.events().insert(calendarID = 'primary', body = event).execute()
+        event = service.events().insert(calendarID='primary', body=event).execute()
         print(f"event created: {event.get('htmllink')}")
     except HttpError as error:
         print('an error has occured:', error)
 
-#%%
+# %%
+
+
 def delete_event(event_id):
     creds = get_creds()
     try:
