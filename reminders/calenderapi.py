@@ -1,4 +1,3 @@
-# %%
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -16,7 +15,6 @@ credentials_file_path = config.get('file_paths', 'file_path_credentials')
 email = config.get('emails', 'email')
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
-# %%
 
 
 def get_creds():
@@ -36,7 +34,6 @@ def get_creds():
             with open("token.json", "w") as token:
                 token.write(creds.to_json())
     return creds
-# %%
 
 
 def get_events():
@@ -56,8 +53,6 @@ def get_events():
             print(start, event['summary'])
     except HttpError as error:
         print('an error has occured:', error)
-
-# %%
 
 
 def create_event(summary, location, description, colorId, dateTime, timeZone, end, attendees):
@@ -86,8 +81,6 @@ def create_event(summary, location, description, colorId, dateTime, timeZone, en
         print(f"event created: {event.get('htmllink')}")
     except HttpError as error:
         print('an error has occured:', error)
-
-# %%
 
 
 def delete_event(event_id):
