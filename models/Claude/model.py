@@ -1,29 +1,34 @@
-#%%
+# %%
+from reminders.calenderapi import *
 import os
 from anthropic import Anthropic
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from reminders.calenderapi import *
-#%%
+sys.path.append(os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)))))
+# %%
 client = Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
 functions = [get_events, create_event]
-#%%
-def get_response(prompt, functions = None):
+# %%
+
+
+def get_response(prompt, functions=None):
     message = client.messages.create(
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": prompt,
-        }
-    ],
-    model="claude-3-5-sonnet-20240620",
-    functions = functions
-)
+        max_tokens=1024,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="claude-3-5-sonnet-20240620",
+        functions=functions
+    )
     return message
 # %%
+
+
 def handle_response(response):
     if response.function_call:
         function_name = response.function_call.name
