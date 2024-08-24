@@ -1,10 +1,11 @@
 # %%
-from reminders.calenderapi import *
 import os
 from anthropic import Anthropic
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))))
+from reminders.calenderapi import *
+from models.FalconsAI.model import *
 # %%
 client = Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
