@@ -10,9 +10,8 @@ from models.FalconsAI.model import *
 client = Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
-functions = [get_events, create_event]
+functions = [get_events, create_event, get_summary]
 # %%
-
 
 def get_response(prompt, functions=None):
     message = client.messages.create(
@@ -27,16 +26,4 @@ def get_response(prompt, functions=None):
         functions=functions
     )
     return message
-# %%
-
-
-def handle_response(response):
-    if response.function_call:
-        function_name = response.function_call.name
-        function_args = response.function_call.arguments
-
-        if function_name == "get_events":
-            weather_result = get_events(**function_args)
-    else:
-        return response.content
 # %%
