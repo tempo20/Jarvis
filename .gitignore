@@ -16,3 +16,6 @@ Sandbox/
 
 # ignore config files
 **/config.ini
+
+# ignore .DS_store 
+.DS_Store
