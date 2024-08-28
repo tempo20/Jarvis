@@ -24,7 +24,7 @@ def google_search(query, api_key = api_key, cse_id = cse_id, num_results=5):
         (item['link']) for item in results.get('items', [])
     ]
     return search_results
-# %%
+
 def get_body(links):
     contents = []
     for link in links:
@@ -37,7 +37,7 @@ def get_body(links):
         except requests.RequestException as e:
             print(f"An error occurred: {e}")
     return contents
-# %%
+
 def get_search_summary(query):
     links = google_search(query)
     contents = get_body(links)
@@ -45,4 +45,6 @@ def get_search_summary(query):
     for val in contents:
         summaries.append(get_summary(val))
     return summaries
+# %%
+temp = get_search_summary('what is quantum fusion?')
 # %%
