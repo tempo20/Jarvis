@@ -6,11 +6,12 @@ sys.path.append(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))))
 from reminders.calenderapi import *
 from models.FalconsAI.model import *
+from Search_Summarize.custom_search import *
 # %%
 client = Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
-functions = [get_events, create_event, get_summary]
+functions = [get_events, create_event, get_summary, get_search_summary]
 # %%
 
 def get_response(prompt, functions=None):

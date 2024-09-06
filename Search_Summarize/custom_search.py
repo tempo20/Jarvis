@@ -46,5 +46,4 @@ def get_search_summary(query):
         summaries.append(get_summary(val))
     return summaries
 # %%
-temp = get_search_summary('what is quantum fusion?')
-# %%
+
