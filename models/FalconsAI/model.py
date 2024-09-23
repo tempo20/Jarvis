@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM # type: ignore
 
 tokenizer = AutoTokenizer.from_pretrained("Falconsai/text_summarization")
 model = AutoModelForSeq2SeqLM.from_pretrained("Falconsai/text_summarization")
