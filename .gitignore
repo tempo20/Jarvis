@@ -10,6 +10,7 @@ __pycache__/
 # ignore json files
 reminders/credentials.json
 reminders/token.json
+models/Claude/token.json
 
 # ignore sandbox files
 Sandbox/
