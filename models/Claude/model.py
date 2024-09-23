@@ -36,7 +36,7 @@ def get_text_content(message):
     return ' '.join(text_content)
 
 def get_response(client, prompt, functions=None):
-    print(f"\n{prompt}\n")
+    print(f"\nUser: {prompt}\n")
     try:
         message = client.messages.create(
             max_tokens=1024,
@@ -49,7 +49,7 @@ def get_response(client, prompt, functions=None):
             model="claude-3-5-sonnet-20240620",
             tools = tools
         )
-        first_response = get_text_content(message)
+        response = get_text_content(message)
 
         if message.stop_reason == "tool_use":
             tool_use = next(block for block in message.content if block.type == "tool_use")
@@ -57,7 +57,7 @@ def get_response(client, prompt, functions=None):
             tool_input = tool_use.input
 
             tool_result = process_tool_call(tool_name, tool_input)
-            response = first_response + f"\n{tool_result}"
+            response = response + f"\n{tool_result}"
 
         return response
 
@@ -68,7 +68,7 @@ def get_response(client, prompt, functions=None):
     
 def chat_loop(client):
     functions = [get_events, create_event, get_summary, get_search_summary]
-    print("You can start chatting with the Anthropic API (type 'exit' to end the chat).")
+    print("You can start chatting with Jarvis (type 'exit' to end the chat).")
 
     while True:
         # Get user input
@@ -84,7 +84,7 @@ def chat_loop(client):
         
         # Print or handle the response
         if response:
-            print(f"Anthropic: {response}")
+            print(f"Jarvis: {response}")
         else:
             print("Failed to get a response")
 
