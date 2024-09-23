@@ -1,9 +1,8 @@
-#%%
-from googleapiclient.errors import HttpError
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.oauth2.credentials import Credentials
-from google.auth.transport.requests import Request
+from googleapiclient.errors import HttpError # type: ignore
+from googleapiclient.discovery import build # type: ignore
+from google_auth_oauthlib.flow import InstalledAppFlow # type: ignore
+from google.oauth2.credentials import Credentials # type: ignore
+from google.auth.transport.requests import Request # type: ignore
 import os.path
 import datetime
 import sys
@@ -96,5 +95,3 @@ def delete_event(event_id):
         print(f"Event with ID {event_id} deleted successfully.")
     except HttpError as error:
         print('An error occurred:', error)
-
-# %%

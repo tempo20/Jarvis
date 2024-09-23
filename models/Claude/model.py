@@ -1,6 +1,5 @@
-#%%
 import os
-from anthropic import Anthropic
+from anthropic import Anthropic # type: ignore
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))))
@@ -92,7 +91,3 @@ def chat_loop(client):
 def main():
     client = initialize()
     chat_loop(client)
-
-#%%
-main()
-# %%
