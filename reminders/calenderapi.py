@@ -1,3 +1,4 @@
+#%%
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -38,6 +39,7 @@ def get_creds():
 
 def get_events():
     creds = get_creds()
+    events_dict = {}
     try:
         service = build('calendar', 'v3', credentials=creds)
         now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
@@ -50,7 +52,10 @@ def get_events():
             return
         for event in events:
             start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event['summary'])
+            # print(start, event['summary'])
+            # print(type(start))
+            events_dict[start] = event['summary']
+            return events_dict
     except HttpError as error:
         print('an error has occured:', error)
 
@@ -91,3 +96,5 @@ def delete_event(event_id):
         print(f"Event with ID {event_id} deleted successfully.")
     except HttpError as error:
         print('An error occurred:', error)
+
+# %%
